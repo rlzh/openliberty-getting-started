@@ -6,17 +6,55 @@
         <feature>cdi-3.0</feature>
         <feature>mpMetrics-4.0</feature>
         <feature>mpConfig-3.0</feature>
+        <!-- <feature>mpFaultTolerance-4.0</feature> -->
+        <!-- <feature>mpHealth-4.0</feature> -->
+        <!-- <feature>mpGraphQL-2.0</feature> -->
+        <!-- <feature>monitor-1.0</feature> -->
+        <!-- <feature>webCache-1.0</feature> -->
+        <!-- <feature>adminCenter-1.0</feature> -->
+        <!-- <feature>restConnector-2.0</feature> -->
+        <!-- <feature>batchManagement-1.0</feature> -->
+        <!-- <feature>sessionDatabase-1.0</feature> -->
+        <!-- <feature>federatedRegistry-1.0</feature> -->
     </featureManager>
 
     <variable name="default.http.port" defaultValue="9080"/>
     <variable name="default.https.port" defaultValue="9443"/>
 
-    <webApplication location="guide-getting-started.war" contextRoot="/" />
-    
+    <webApplication location="guide-getting-started.war" contextRoot="/dev" />
     <mpMetrics authentication="false"/>
 
-    <httpEndpoint host="*" httpPort="${default.http.port}"
+    <logging traceSpecification="com.ibm.ws.microprofile.health.*=all" />
+
+    <httpEndpoint host="*" httpPort="${default.http.port}" 
         httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
 
     <variable name="io_openliberty_guides_system_inMaintenance" value="false"/>
+    
+    <reader-role>
+        <user>John</user>
+        <group>employees</group>
+    </reader-role>
+
+    <administrator-role>
+        <user>Bob</user>
+        <group>managers</group>
+    </administrator-role>
+
+    <basicRegistry id="basic" realm="BasicRealm">
+        <user name="Bob" password="bobpwd" />
+        <user name="John" password="johnpwd" />
+        <user name="user1" password="user1pwd"/>
+        <user name="user2" password="user2pwd" />
+
+        <group name="myAdmins">
+            <member name="Bob" />
+            <member name="user1" />
+        </group>
+
+        <group name="users">
+            <member name="user1" />
+            <member name="user2" />
+        </group>
+    </basicRegistry>
 </server>
